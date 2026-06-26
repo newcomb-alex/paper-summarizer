@@ -18,7 +18,6 @@ def build_template(
     paper_text: str,
     system_prompt: str = "",
     model: str = MODEL,
-    temperature: float = 0.2,
     max_tokens: int = 8000,
     timeout: int = 120,
 ) -> str:
@@ -39,8 +38,6 @@ def build_template(
         that should be injected into the template.
     model : str
         OpenRouter model identifier.
-    temperature : float
-        Sampling temperature (low for deterministic structure extraction).
     max_tokens : int
         Maximum tokens to generate for the template.
     timeout : int
@@ -75,7 +72,6 @@ def build_template(
     payload = {
         "model": model,
         "messages": messages,
-        "temperature": temperature,
         "max_tokens": max_tokens,
     }
 
@@ -127,10 +123,6 @@ def main():
              "If omitted, the system prompt is left empty.",
     )
     parser.add_argument(
-        "--temperature", type=float, default=0.2,
-        help="Sampling temperature (default: 0.2).",
-    )
-    parser.add_argument(
         "--max-tokens", type=int, default=8000,
         help="Max tokens for the generated template (default: 8000).",
     )
@@ -147,7 +139,6 @@ def main():
     template = build_template(
         paper_text=paper_text,
         system_prompt=system_prompt,
-        temperature=args.temperature,
         max_tokens=args.max_tokens,
     )
 

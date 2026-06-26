@@ -43,6 +43,6 @@ TYPE - Any other section type:
 (One to two paragraph summary).
 
 Additional Instructions: 
-Note that some papers combine the experimental design/evaluation and experimental results into one section. In this case, add both instructions and request double the length (e.g. two to four paragraphs instead of one to two). This same rule applies for any section in which the paper combined two or more sections. 
+Exclude the Abstract. Note that some papers combine the experimental design/evaluation and experimental results into one section. In this case, add both instructions and request double the length (e.g. two to four paragraphs instead of one to two). This same rule applies for any section in which the paper combined two or more sections. 
 
 Output ONLY the sequence of section blocks. Do not add a title, preamble, commentary, or any text outside the blocks.
