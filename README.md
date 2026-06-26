@@ -81,12 +81,12 @@ Note:
 Requires a LaTeX engine installed for rendering into PDF. TeX Live (Linux/macOS) or MiKTeX (Windows)
 
 ## Supported PDF Parameters
--i, --input : input file, default="summary.md"
--o, --output : output file,
--s, --font-size : font size, default=14
--f, --font-family : font family, default="Times New Roman"
--m, --margin : margin size, default="1in"
---column-sep : column separation, default="20pt"
+-i, --input : input file, default="summary.md"  
+-o, --output : output file,  
+-s, --font-size : font size, default=14  
+-f, --font-family : font family, default="Times New Roman"  
+-m, --margin : margin size, default="1in"  
+--column-sep : column separation, default="20pt"  
 
 ## Kindle/E-Reader Support
 The PDF can be optionally exported into a 6" kindle size for an e-reader by using the option --kindle in the CLI. For other e-reader sizes, the width and height of the PDF can be customized through the parameters --paper-width and --paper-height. The margin can be set with -m. 
