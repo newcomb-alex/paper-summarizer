@@ -30,13 +30,15 @@ Stage one receives an input document in the form of a PDF and parses the main se
 
 The output of this stage is a machine-readable template in markdown with the following format for each section. The machine readable formatting allows easy parsing for stage two, where each section is prompted in independent sessions to improve the overall quality of the summary. 
 
-\--------------------------------------  
-\#\# [SECTION: Introduction]  
-\<instructions>...injected instructions...\</instructions>
+```markdown
+--------------------------------------  
+## [SECTION: Introduction]  
+<instructions>...injected instructions...</instructions>
 
-\#\# [SECTION: Methods]  
-\<instructions>...injected instructions...\</instructions>  
-\--------------------------------------
+## [SECTION: Methods]  
+<instructions>...injected instructions...</instructions>  
+--------------------------------------
+```
 
 The default LLM currently used is Claude Sonnet 4.6. This may be configured within stage_one.py. 
 

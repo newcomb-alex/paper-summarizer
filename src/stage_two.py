@@ -86,39 +86,42 @@ def summarize_section(
     max_tokens: int = 4000,
     timeout: int = 120,
 ) -> str:
-    """
-    Stage 2 (per section).
-
-    Given the full paper and a single section's instructions, ask the LLM to
-    write the summary for that section only. Each call is an independent
-    session, so no conversation state carries over between sections.
-
-    The system prompt is left empty by default for you to populate.
-    """
     if not OPENROUTER_API_KEY:
-        raise RuntimeError(
-            "OPENROUTER_API_KEY not found. Add it to your .env file."
-        )
+        raise RuntimeError("OPENROUTER_API_KEY not found. Add it to your .env file.")
 
-    user_prompt = (
-        "You are summarizing one section of the paper below.\n\n"
-        f"Section to summarize: {section.name}\n\n"
-        "Follow these section-specific instructions exactly:\n"
-        "<instructions>\n"
-        f"{section.instructions}\n"
-        "</instructions>\n\n"
-        "Here is the full paper for reference:\n"
-        "<paper>\n"
-        f"{paper_text}\n"
-        "</paper>\n\n"
-        f"Write only the summary content for the '{section.name}' section. "
-        "Do not include the section heading; it will be added automatically."
-    )
+    # Stable, cacheable prefix: the full paper. This is identical on every call,
+    # so it is written to cache once and read cheaply thereafter.
+    paper_block = {
+        "type": "text",
+        "text": (
+            "Here is the full paper for reference:\n"
+            "<paper>\n"
+            f"{paper_text}\n"
+            "</paper>"
+        ),
+        # The breakpoint: everything up to and including this block is cached.
+        "cache_control": {"type": "ephemeral"},
+    }
+
+    # Variable, per-section suffix: NOT cached, changes each call.
+    instructions_block = {
+        "type": "text",
+        "text": (
+            "You are summarizing one section of the paper above.\n\n"
+            f"Section to summarize: {section.name}\n\n"
+            "Follow these section-specific instructions exactly:\n"
+            "<instructions>\n"
+            f"{section.instructions}\n"
+            "</instructions>\n\n"
+            f"Write only the summary content for the '{section.name}' section. "
+            "Do not include the section heading; it will be added automatically."
+        ),
+    }
 
     messages = []
     if system_prompt:
         messages.append({"role": "system", "content": system_prompt})
-    messages.append({"role": "user", "content": user_prompt})
+    messages.append({"role": "user", "content": [paper_block, instructions_block]})
 
     payload = {
         "model": model,
@@ -143,6 +146,13 @@ def summarize_section(
     data = response.json()
     if "error" in data:
         raise RuntimeError(f"OpenRouter API error: {data['error']}")
+
+    # Optional: inspect cache effectiveness.
+    usage = data.get("usage", {})
+    print(
+        f"    tokens — prompt: {usage.get('prompt_tokens')}, "
+        f"completion: {usage.get('completion_tokens')}"
+    )
 
     return data["choices"][0]["message"]["content"].strip()
 
