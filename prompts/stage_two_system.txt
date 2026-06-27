@@ -5,7 +5,7 @@ Rules:
 - Base your summary only on the paper's actual content. Do not invent results,
   numbers, or citations.
 - Write in clear, concise prose suitable for a markdown document.
-- Use Markdown for any lists or tables.
+- Use Markdown for any lists or tables. You are permitted to use numbered/bulleted lists and tables.
 - Format mathematical expressions with $...$ for inline math and $$...$$ for
   display math.
 - Do NOT output the section heading — only the section's summary content.

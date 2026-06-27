@@ -8,6 +8,7 @@ System prompts for stages one and two are provided under the prompts folder. The
 Paper Summarizer also provides markdown to PDF conversion, including clean rendering of mathematical equations. Details on PDF conversion are provided at the bottom of this README. 
 
 # File Structure
+```
 paper-summarizer/  
 ├── .env  
 ├── requirements.txt  
@@ -22,6 +23,7 @@ paper-summarizer/
     ├── pdf_utils.py   
     ├── stage_one.py    
     └── stage_two.py  
+```
 
 # Stage One
 Stage one receives an input document in the form of a PDF and parses the main sections from the document using an LLM. The LLM is then prompted to inject specific instructions to each section depending on the type of section. For example, if the section details an author's methods/approach, specific instructions for extracting key elements of the proposed solution are explicitly stated. Therefore, each section within the template consists of unique instructions. If the user is interested in only specific details of a section, the system prompt may be altered to include these instructions (such as for a systematic literature review). 
